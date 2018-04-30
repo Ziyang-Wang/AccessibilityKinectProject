@@ -23,7 +23,7 @@ namespace AccessibilityProject
                 if(joint_clrspace.X >= 0.0 && joint_clrspace.X <= 1920.0 && joint_clrspace.Y >= 0.0 && joint_clrspace.Y <= 1080.0)
                 {
                     CvInvoke.Circle(image,
-                        new Point((int)joint_clrspace.X / 2, (int)joint_clrspace.Y / 2), 5,
+                        new Point((int)joint_clrspace.X / 3, (int)joint_clrspace.Y / 3), 5,
                         new MCvScalar(0, 255, 0), -1);
                 }
             }
@@ -41,7 +41,7 @@ namespace AccessibilityProject
                 if(joint_clrspace.X >= 0.0 && joint_clrspace.X <= 1920.0 && joint_clrspace.Y >= 0.0 && joint_clrspace.Y <= 1080.0)
                 {
                     CvInvoke.Circle(image,
-                        new Point((int)joint_clrspace.X / 2, (int)joint_clrspace.Y / 2), 5,
+                        new Point((int)joint_clrspace.X / 3, (int)joint_clrspace.Y / 3), 5,
                         new MCvScalar(0, 0, 255), -1);
                 }
             }

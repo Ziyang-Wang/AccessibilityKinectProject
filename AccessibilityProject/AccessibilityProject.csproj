@@ -79,6 +79,8 @@
       <DependentUpon>Display.cs</DependentUpon>
     </Compile>
     <Compile Include="DrawingHelper.cs" />
+    <Compile Include="HighKnees.cs" />
+    <Compile Include="MathCalculation.cs" />
     <Compile Include="MSKinect.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

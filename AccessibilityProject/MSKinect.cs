@@ -24,10 +24,28 @@ namespace AccessibilityProject
         // reader for color, body, and depth frame
         private static MultiSourceFrameReader multi_source_frame_reader = null;
 
-        private static Image<Bgr, byte> display_kinect_image = new Image<Bgr, byte>(960, 540);
+        private static Image<Bgr, byte> display_kinect_image = new Image<Bgr, byte>(640, 360);
 
-        //internal static CameraSpacePoint[] body_joints_CamSpacePts;
-        //internal static ColorSpacePoint[] body_joints_ClrSpacePts;
+        internal static CameraSpacePoint head;
+        internal static CameraSpacePoint neck;
+        internal static CameraSpacePoint wrist_left;
+        internal static CameraSpacePoint wrist_right;
+        internal static CameraSpacePoint shoulder_center;
+        internal static CameraSpacePoint shoulder_left;
+        internal static CameraSpacePoint shoulder_right;
+        internal static CameraSpacePoint elbow_left;
+        internal static CameraSpacePoint elbow_right;
+        internal static CameraSpacePoint hip_center;
+        internal static CameraSpacePoint hip_left;
+        internal static CameraSpacePoint hip_right;
+        internal static CameraSpacePoint knee_left;
+        internal static CameraSpacePoint knee_right;
+
+        //internal static CameraSpacePoint ankle_left;
+        //internal static CameraSpacePoint ankle_right;
+
+        internal static CameraSpacePoint foot_left;
+        internal static CameraSpacePoint foot_right;
 
         /// <summary>
         /// set up the kinect if possible and run the multi source frame reader
@@ -36,21 +54,11 @@ namespace AccessibilityProject
         internal static void setup_kinect(Display display_form)
         {
             // gets the default sensor
-            kinect_sensor =  KinectSensor.GetDefault();
+            kinect_sensor = KinectSensor.GetDefault();
 
-            // if retrieved unsuccessfully
-            if(kinect_sensor == null)
-            {
-                // debug message
-                Debug.WriteLine("Kinect Not Found");
-            }
-            else
-            {
-                // open the kinect sensor
-                kinect_sensor.Open();
-                // debug message
-                Debug.WriteLine("Kinect sensor opened successfully");
-            }
+            display_form.Program_status = "Kinect Not Found";
+
+            kinect_sensor.Open();
 
             // initialize the frame reader that reads color, body, depth frame
             multi_source_frame_reader = kinect_sensor.OpenMultiSourceFrameReader(FrameSourceTypes.Color |
@@ -98,7 +106,7 @@ namespace AccessibilityProject
                     // wrap the bitmap data into an image object(1920 x 1080)
                     Image<Bgr, byte> bgr = new Image<Bgr, byte>(bitmap);
                     // resize the image into 960 x 540
-                    CvInvoke.Resize(bgr, display_kinect_image, new Size(960, 540));
+                    CvInvoke.Resize(bgr, display_kinect_image, new Size(640, 360));
 
                     //var depth_width = depth_frame.FrameDescription.Width;
                     //var depth_height = depth_frame.FrameDescription.Height;
@@ -109,10 +117,34 @@ namespace AccessibilityProject
 
                     body_frame.GetAndRefreshBodyData(bodies);
 
-                    var body = bodies.Where(by => by.IsTracked).FirstOrDefault();
+                    var body = bodies.Where(bd => bd.IsTracked).FirstOrDefault();
 
-                    if(body != null)
+                    form.Program_status = "Detecting Body";
+
+                    if (body != null)
                     {
+                        form.Program_status = "Body Tracked";
+                        head = body.Joints[JointType.Head].Position;
+                        neck = body.Joints[JointType.Neck].Position;
+                        shoulder_center = body.Joints[JointType.SpineShoulder].Position;
+                        hip_center = body.Joints[JointType.SpineBase].Position;
+                        wrist_left = body.Joints[JointType.WristLeft].Position;
+                        wrist_right = body.Joints[JointType.WristRight].Position;
+                        shoulder_left = body.Joints[JointType.ShoulderLeft].Position;
+                        shoulder_right = body.Joints[JointType.ShoulderRight].Position;
+                        elbow_left = body.Joints[JointType.ElbowLeft].Position;
+                        hip_left = body.Joints[JointType.HipLeft].Position;
+                        knee_left = body.Joints[JointType.KneeLeft].Position;
+                        foot_left = body.Joints[JointType.FootLeft].Position;
+                        elbow_right = body.Joints[JointType.ElbowRight].Position;
+                        hip_right = body.Joints[JointType.HipRight].Position;
+                        knee_right = body.Joints[JointType.KneeRight].Position;
+                        foot_right = body.Joints[JointType.FootRight].Position;
+
+                        //ankle_left = body.Joints[JointType.AnkleLeft].Position;
+                        //ankle_right = body.Joints[JointType.AnkleRight].Position;
+
+
                         var body_joints = body.Joints.Values;
 
                         var body_joints_Trked = new Joint[body_joints.Count()];
@@ -150,6 +182,36 @@ namespace AccessibilityProject
 
                         DrawingHelper.draw_tracked_joints(body_joints_ClrSpacePts_Trked, display_kinect_image);
                         DrawingHelper.draw_inferred_joints(body_joints_ClrSpacePts_Infrd, display_kinect_image);
+
+                        
+                        if (!HighKnees.ready_for_tutoring)
+                        {
+                            if (HighKnees.check_for_tutoring(form))
+                            {
+                                HighKnees.ready_for_tutoring = true;
+                            } 
+                        }else
+                        {
+                            if (!HighKnees.finished_first_half)
+                            {
+                                form.Program_status = "First-Half Tutoring";
+                                HighKnees.first_half_tutoring(form);
+                            }
+                            else if(!HighKnees.finished_second_half)
+                            {
+                                form.Program_status = "Second-Half Tutoring";
+                                HighKnees.second_half_tutoring(form);
+                            }
+                            else
+                            {
+                                form.Program_status = "Free-mode";
+                                form.Text_box_status = "Now you are in execrising mode. Practice more to gain a better skill!";
+                            }
+                        }
+                    }
+                    else
+                    {
+                        HighKnees.ready_for_tutoring = false;
                     }
                 }
                 form.setImage = display_kinect_image;
