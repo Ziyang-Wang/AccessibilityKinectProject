@@ -41,12 +41,10 @@ namespace AccessibilityProject
         internal static CameraSpacePoint knee_left;
         internal static CameraSpacePoint knee_right;
 
-        //internal static CameraSpacePoint ankle_left;
-        //internal static CameraSpacePoint ankle_right;
-
         internal static CameraSpacePoint foot_left;
         internal static CameraSpacePoint foot_right;
 
+        internal static bool played_detecting_body = false;
         /// <summary>
         /// set up the kinect if possible and run the multi source frame reader
         /// </summary>
@@ -120,6 +118,11 @@ namespace AccessibilityProject
                     var body = bodies.Where(bd => bd.IsTracked).FirstOrDefault();
 
                     form.Program_status = "Detecting Body";
+                    if (!played_detecting_body)
+                    {
+                        form.play_audio(Properties.Resources.detecting_body);
+                        played_detecting_body = true;
+                    }
 
                     if (body != null)
                     {
@@ -183,35 +186,85 @@ namespace AccessibilityProject
                         DrawingHelper.draw_tracked_joints(body_joints_ClrSpacePts_Trked, display_kinect_image);
                         DrawingHelper.draw_inferred_joints(body_joints_ClrSpacePts_Infrd, display_kinect_image);
 
-                        
+
                         if (!HighKnees.ready_for_tutoring)
                         {
                             if (HighKnees.check_for_tutoring(form))
                             {
                                 HighKnees.ready_for_tutoring = true;
-                            } 
-                        }else
-                        {
-                            if (!HighKnees.finished_first_half)
-                            {
-                                form.Program_status = "First-Half Tutoring";
-                                HighKnees.first_half_tutoring(form);
                             }
-                            else if(!HighKnees.finished_second_half)
+                        }
+                        else
+                        {
+                            if (!HighKnees.finished_first_quarter)
                             {
-                                form.Program_status = "Second-Half Tutoring";
-                                HighKnees.second_half_tutoring(form);
+                                form.Program_status = "First-Quarter Tutoring";
+                                HighKnees.first_quarter_tutoring(form);
+                            }
+                            else if (!HighKnees.finished_second_quarter)
+                            {
+                                form.Program_status = "Second-Quarter Tutoring";
+                                HighKnees.second_quarter_tutoring(form);
+                            }
+                            else if (!HighKnees.finished_third_quarter)
+                            {
+                                form.Program_status = "Third-Quarter Tutoring";
+                                form.Text_box_status = "Now, see if you can curl your right arm, raise your left knee and slightly bend your left arm simultaneously then switch to another side, which is similar";
+                                if (!HighKnees.played_third_quarter_tutoring)
+                                {
+                                    form.play_audio(Properties.Resources.third_quarter_tutoring);
+                                    HighKnees.played_third_quarter_tutoring = true;
+                                }
+
+                                HighKnees.third_quarter_tutoring(form);
+                                if(HighKnees.finished_third_quarter)
+                                    System.Media.SystemSounds.Beep.Play();
+                            }
+                            else if (!HighKnees.finished_fourth_quarter)
+                            {
+                                form.Program_status = "Fourth-Quarter Tutoring";
+                                HighKnees.fourth_quarter_tutoring(form);
+                                if(HighKnees.finished_fourth_quarter)
+                                    System.Media.SystemSounds.Beep.Play();
                             }
                             else
                             {
                                 form.Program_status = "Free-mode";
-                                form.Text_box_status = "Now you are in execrising mode. Practice more to gain a better skill!";
+                                form.Text_box_status = "Now you are in exercising mode. Practice more to gain a better skill! Remember to alternate your arms back and forth.";
+                                if (!HighKnees.played_free_mode)
+                                {
+                                    form.play_audio(Properties.Resources.free_mode);
+                                    HighKnees.played_free_mode = true;
+                                }
+
+                                if (!HighKnees.finish_first_part_exercise)
+                                {
+                                    if (HighKnees.third_quarter_tutoring(form))
+                                    {
+                                        HighKnees.finish_first_part_exercise = true;
+                                        HighKnees.count++;
+                                        System.Media.SystemSounds.Beep.Play();
+                                        form.Set_counter = HighKnees.count;
+                                        HighKnees.finish_second_part_exercise = false;
+                                    }
+                                }else if (!HighKnees.finish_second_part_exercise)
+                                {
+                                    if (HighKnees.fourth_quarter_tutoring(form))
+                                    {
+                                        HighKnees.finish_second_part_exercise = true;
+                                        HighKnees.count++;
+                                        System.Media.SystemSounds.Beep.Play();
+                                        form.Set_counter = HighKnees.count;
+                                        HighKnees.finish_first_part_exercise = false;
+                                    }
+                                }
                             }
                         }
                     }
                     else
                     {
                         HighKnees.ready_for_tutoring = false;
+                        HighKnees.played_check_for_tutoring = false;
                     }
                 }
                 form.setImage = display_kinect_image;

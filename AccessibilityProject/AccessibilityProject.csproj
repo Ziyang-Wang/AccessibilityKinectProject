@@ -95,6 +95,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -113,6 +114,18 @@
     <Content Include="cvextern.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\detecting_body.wav" />
+    <None Include="Resources\free_mode.wav" />
+    <None Include="Resources\third_quarter_tutoring.wav" />
+    <None Include="Resources\bend_left_arm_backward.wav" />
+    <None Include="Resources\raise_left_knee_up.wav" />
+    <None Include="Resources\curl_right_arm.wav" />
+    <None Include="Resources\bend_right_arm_backward.wav" />
+    <None Include="Resources\raise_right_knee_up.wav" />
+    <None Include="Resources\curl_left_arm.wav" />
+    <None Include="Resources\check_for_tutoring.wav" />
+    <None Include="Resources\third_tutoring.wav" />
+    <None Include="Resources\third_tutoring.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

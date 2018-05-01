@@ -39,9 +39,9 @@
             this.leftFootLabel = new System.Windows.Forms.Label();
             this.rightFootLabel = new System.Windows.Forms.Label();
             this.statusLabel = new System.Windows.Forms.Label();
-            this.timerHeadLabel = new System.Windows.Forms.Label();
-            this.timerLabel = new System.Windows.Forms.Label();
             this.mainTextBox = new System.Windows.Forms.TextBox();
+            this.countHeadLabel = new System.Windows.Forms.Label();
+            this.countLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.formImageBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -143,26 +143,6 @@
             this.statusLabel.TabIndex = 11;
             this.statusLabel.Text = "Status: ";
             // 
-            // timerHeadLabel
-            // 
-            this.timerHeadLabel.AutoSize = true;
-            this.timerHeadLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.timerHeadLabel.Location = new System.Drawing.Point(672, 534);
-            this.timerHeadLabel.Name = "timerHeadLabel";
-            this.timerHeadLabel.Size = new System.Drawing.Size(64, 24);
-            this.timerHeadLabel.TabIndex = 12;
-            this.timerHeadLabel.Text = "Timer:";
-            // 
-            // timerLabel
-            // 
-            this.timerLabel.AutoSize = true;
-            this.timerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.timerLabel.Location = new System.Drawing.Point(742, 527);
-            this.timerLabel.Name = "timerLabel";
-            this.timerLabel.Size = new System.Drawing.Size(43, 31);
-            this.timerLabel.TabIndex = 13;
-            this.timerLabel.Text = "0s";
-            // 
             // mainTextBox
             // 
             this.mainTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
@@ -173,14 +153,34 @@
             this.mainTextBox.Size = new System.Drawing.Size(640, 210);
             this.mainTextBox.TabIndex = 14;
             // 
+            // countHeadLabel
+            // 
+            this.countHeadLabel.AutoSize = true;
+            this.countHeadLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.countHeadLabel.Location = new System.Drawing.Point(672, 527);
+            this.countHeadLabel.Name = "countHeadLabel";
+            this.countHeadLabel.Size = new System.Drawing.Size(70, 24);
+            this.countHeadLabel.TabIndex = 15;
+            this.countHeadLabel.Text = "Count: ";
+            // 
+            // countLabel
+            // 
+            this.countLabel.AutoSize = true;
+            this.countLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.countLabel.Location = new System.Drawing.Point(742, 520);
+            this.countLabel.Name = "countLabel";
+            this.countLabel.Size = new System.Drawing.Size(29, 31);
+            this.countLabel.TabIndex = 16;
+            this.countLabel.Text = "0";
+            // 
             // Display
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1118, 600);
+            this.Controls.Add(this.countLabel);
+            this.Controls.Add(this.countHeadLabel);
             this.Controls.Add(this.mainTextBox);
-            this.Controls.Add(this.timerLabel);
-            this.Controls.Add(this.timerHeadLabel);
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.rightFootLabel);
             this.Controls.Add(this.leftFootLabel);
@@ -211,9 +211,9 @@
         private System.Windows.Forms.Label leftFootLabel;
         private System.Windows.Forms.Label rightFootLabel;
         private System.Windows.Forms.Label statusLabel;
-        private System.Windows.Forms.Label timerHeadLabel;
-        private System.Windows.Forms.Label timerLabel;
         private System.Windows.Forms.TextBox mainTextBox;
+        private System.Windows.Forms.Label countHeadLabel;
+        private System.Windows.Forms.Label countLabel;
     }
 }
 

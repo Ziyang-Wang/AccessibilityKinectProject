@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Media;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using System.Windows.Forms;
@@ -14,8 +15,6 @@ namespace AccessibilityProject
 {
     public partial class Display : Form
     {
-        internal Timer count_down_timer = new Timer();
-        internal int total_time;
 
         internal Image<Bgr, byte> setImage
         {
@@ -62,28 +61,10 @@ namespace AccessibilityProject
             set { rightFootLabel.Text = "Right Foot: " + value; }
         }
 
-        internal int Set_timer
-        {
-            set
-            {
-                total_time = value;
-                System.Diagnostics.Debug.WriteLine(value);
-                count_down_timer.Interval = 1000;
-                count_down_timer.Tick += new EventHandler(one_tick);
-                count_down_timer.Enabled = true;
-            }
-        }
 
-        internal void one_tick(object sender, EventArgs e)
+        internal int Set_counter
         {
-            if(total_time > 0)
-            {
-                total_time-=1000;
-            }else if(total_time == 0)
-            {
-                count_down_timer.Stop();
-            }
-            timerLabel.Text = (total_time / 1000).ToString() + "s";
+            set { countLabel.Text = value.ToString(); }
         }
 
         internal string Program_status
@@ -94,6 +75,12 @@ namespace AccessibilityProject
         internal string Text_box_status
         {
             set { mainTextBox.Text = value; }
+        }
+
+        internal void play_audio(System.IO.UnmanagedMemoryStream audio_file_stream)
+        {
+            SoundPlayer player = new SoundPlayer(audio_file_stream);
+            player.Play();
         }
 
         public Display()
