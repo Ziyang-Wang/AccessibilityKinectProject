@@ -2,4 +2,4 @@
 
 ### Click on the picture to watch a demo:
 
-[![](https://raw.githubusercontent.com/Ziyang-Wang/AccessibilityKinectProject/master/high%20knees%20for%20blind.png)](https://youtu.be/9lMRoM6PMYU)
+[![](https://raw.githubusercontent.com/Ziyang-Wang/AccessibilityKinectProject/master/high%20knees%20for%20people%20with%20visual impairment.png)](https://youtu.be/9lMRoM6PMYU)
