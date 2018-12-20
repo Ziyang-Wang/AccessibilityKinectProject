@@ -1,4 +1,4 @@
-# High knees for blind people
+# High knees for people with visual impairment
 
 ### Click on the picture to watch a demo:
 
