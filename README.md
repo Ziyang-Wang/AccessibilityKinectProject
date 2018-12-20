@@ -1,4 +1,4 @@
-# Accessibility Kinect Project
+# High knees for blind people
 
 ### Click on the picture to watch a demo:
 
